@@ -1,6 +1,7 @@
 import glob
 import os
 from enum import Enum
+from random import randint
 
 from bs4 import BeautifulSoup as bs
 import requests
@@ -34,7 +35,7 @@ def play_next_video(current_id):
     page = r.text
     soup = bs(page, 'html.parser')
     vids = soup.findAll('a', attrs={'class': 'content-link'})
-    next_id = vids[0]['href']
+    next_id = vids[randint(0, 6)]['href']
     return next_id.split('=')[1]
 
 
