@@ -122,3 +122,11 @@ tmtagsHistory
 models/*
 !models/.keep
 
+# buffer files
+buffer/*
+!buffer/.keep
+
+# images files
+images/*
+!images/.keep
+

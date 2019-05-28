@@ -28,6 +28,7 @@ def main_test():
     cv2.waitKey(1)
 
     input()
+    cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':
