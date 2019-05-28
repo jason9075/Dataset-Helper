@@ -48,7 +48,7 @@ def main():
     with open(ANNO_FILE, "a") as anno_file:
         anno_file.write("name, type, start_x, start_y, end_x, end_y\n")
 
-        for _ in range(0, 2):
+        for _ in range(0, 1000):
             print(f'start download video {video_id}')
 
             yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
@@ -76,6 +76,8 @@ def main():
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
                 person_loc = person_detector.predict(frame)
+                if len(person_loc) == 0:  # 沒抓到人也不抓臉了
+                    continue
                 face_loc = face_detector.predict(frame)
 
                 file_name = f'{video_id}_{idx}.jpg'
