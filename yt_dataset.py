@@ -1,3 +1,6 @@
+# pip install -U bs4
+# pip install pytube
+
 import glob
 import os
 from enum import Enum
@@ -13,7 +16,7 @@ from pytube.exceptions import LiveStreamError
 from detector import PersonLocationDetector, FaceLocationDetector
 
 SKIP_FRAME = 100
-START_ID = '8i7xNbRnvkI'
+START_ID = 'bsFAn8pNt38'
 ANNO_FILE = 'annotation.csv'
 MAX_VIDEO_LENGTH = 1800
 
@@ -58,6 +61,10 @@ def main():
                 yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
             except LiveStreamError:
                 print('Warning: is live stream.')
+                video_id = play_next_video(video_id)
+                continue
+            except KeyError:
+                print('Warning: pytube bug....')
                 video_id = play_next_video(video_id)
                 continue
             if MAX_VIDEO_LENGTH < int(yt.length):
