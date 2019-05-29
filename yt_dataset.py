@@ -53,7 +53,7 @@ def main():
     video_id = START_ID
     video_id_set = set()
     with open(ANNO_FILE, "a") as anno_file:
-        anno_file.write("name, type, start_x, start_y, end_x, end_y\n")
+        anno_file.write("name,type,start_x,start_y,end_x,end_y,available\n")
 
         for _ in range(0, 1000):
             print(f'##### start with video {video_id}')
@@ -132,11 +132,11 @@ def draw_info(face_loc, frame, person_loc):
 def record_data(frame, anno_file, person_loc, face_loc, file_name):
     for person in person_loc:
         anno_file.write(
-            f"{file_name}, {Category.PERSON.value}, {person[0][0]},{person[0][1]},{person[0][0]},{person[1][1]}\n")
+            f"{file_name},{Category.PERSON.value},{person[0][0]},{person[0][1]},{person[1][0]},{person[1][1]},1\n")
 
     for face in face_loc:
         anno_file.write(
-            f"{file_name}, {Category.FACE.value}, {face[0][0]},{face[0][1]},{face[0][0]},{face[1][1]}\n")
+            f"{file_name},{Category.FACE.value},{face[0][0]},{face[0][1]},{face[1][0]},{face[1][1]},1\n")
 
     cv2.imwrite(f'images/{file_name}', frame)
 
