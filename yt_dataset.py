@@ -8,12 +8,14 @@ import requests
 import cv2
 
 from pytube import YouTube
+from pytube.exceptions import LiveStreamError
 
 from detector import PersonLocationDetector, FaceLocationDetector
 
 SKIP_FRAME = 100
 START_ID = '8i7xNbRnvkI'
 ANNO_FILE = 'annotation.csv'
+MAX_VIDEO_LENGTH = 1800
 
 
 class Category(Enum):
@@ -24,7 +26,7 @@ class Category(Enum):
 def purge():
     for f in glob.glob('images/*.jpg'):
         os.remove(f)
-    for f in glob.glob('buffer/*.mp4'):
+    for f in glob.glob('buffer/*[!.keep]'):
         os.remove(f)
     if os.path.exists(ANNO_FILE):
         os.remove(ANNO_FILE)
@@ -50,14 +52,21 @@ def main():
         anno_file.write("name, type, start_x, start_y, end_x, end_y\n")
 
         for _ in range(0, 1000):
-            print(f'start download video {video_id}')
+            print(f'##### start with video {video_id}')
 
-            yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
-            if 1800 < int(yt.length):
+            try:
+                yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
+            except LiveStreamError:
+                print('Warning: is live stream.')
                 video_id = play_next_video(video_id)
                 continue
+            if MAX_VIDEO_LENGTH < int(yt.length):
+                print('Warning: video too long.')
+                video_id = play_next_video(video_id)
+                continue
+            print('Downloading...')
             downloaded_filename = yt.streams.first().download(output_path='buffer', filename=video_id)
-
+            print('Process...')
             cap = cv2.VideoCapture(downloaded_filename)
 
             idx = 0
