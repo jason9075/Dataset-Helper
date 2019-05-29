@@ -51,6 +51,7 @@ def main():
     face_detector = FaceLocationDetector()
 
     video_id = START_ID
+    video_id_set = set()
     with open(ANNO_FILE, "a") as anno_file:
         anno_file.write("name, type, start_x, start_y, end_x, end_y\n")
 
@@ -67,10 +68,15 @@ def main():
                 print('Warning: pytube bug....')
                 video_id = play_next_video(video_id)
                 continue
+            if video_id in video_id_set:
+                print('Warning: video duplicated.')
+                video_id = play_next_video(video_id)
+                continue
             if MAX_VIDEO_LENGTH < int(yt.length):
                 print('Warning: video too long.')
                 video_id = play_next_video(video_id)
                 continue
+            video_id_set.add(video_id)
             print('Downloading...')
             downloaded_filename = yt.streams.first().download(output_path='buffer', filename=video_id)
             print('Process...')
