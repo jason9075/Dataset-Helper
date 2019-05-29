@@ -10,7 +10,7 @@ parser = ArgumentParser()
 parser.add_argument(
     "--csv", default="annotation.csv", help="annotation file")
 parser.add_argument(
-    "--data_dir", default="images/",
+    "--data-dir", default="images/",
     help="image folder")
 parser.add_argument(
     "--output-name", default="annotation", help="annotation file")
