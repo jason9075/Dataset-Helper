@@ -130,5 +130,9 @@ buffer/*
 images/*
 !images/.keep
 
+# output path files
+output_path/*
+!output_path/.keep
+
 annotation.csv
 filter.csv
