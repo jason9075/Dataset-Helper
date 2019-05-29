@@ -130,3 +130,5 @@ buffer/*
 images/*
 !images/.keep
 
+annotation.csv
+

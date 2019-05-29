@@ -56,10 +56,9 @@ def main():
             if 1800 < int(yt.length):
                 video_id = play_next_video(video_id)
                 continue
-            yt.streams.first().download(output_path='buffer', filename=video_id)
+            downloaded_filename = yt.streams.first().download(output_path='buffer', filename=video_id)
 
-            file_name = f'buffer/{video_id}.mp4'
-            cap = cv2.VideoCapture(file_name)
+            cap = cv2.VideoCapture(downloaded_filename)
 
             idx = 0
             while True:
@@ -92,7 +91,7 @@ def main():
                 cv2.waitKey(1)
 
             cap.release()
-            os.remove(f'buffer/{video_id}.mp4')
+            os.remove(downloaded_filename)
 
             video_id = play_next_video(video_id)
 
