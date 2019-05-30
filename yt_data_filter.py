@@ -15,7 +15,7 @@ def main():
     img_name_list = df.name.unique()
 
     print('push \'Enter\' to next, \'z\' to drop out, or \'q\' to exit! ')
-    for img_name in img_name_list:
+    for idx, img_name in enumerate(img_name_list):
         person_df = df.loc[(df.name == img_name) & (df['type'] == 1)]
         face_df = df[(df.name == img_name) & (df['type'] == 2)]
 
@@ -31,7 +31,7 @@ def main():
         cv2.imshow('frame', img)
         cv2.waitKey(1)
 
-        ans = input()
+        ans = input(f'{idx+1}/{len(img_name_list)}')
         if ans.lower() == 'q':
             is_save = input('save result? (y/n)')
             if is_save.lower() == 'n':
