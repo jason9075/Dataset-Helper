@@ -77,7 +77,6 @@ def main():
                 continue
             except KeyError:
                 print('Warning: pytube bug....')
-                video_idx += 1
                 video_id = play_next_video(video_idx)
                 continue
             if video_id in video_id_set:
