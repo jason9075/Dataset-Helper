@@ -65,7 +65,7 @@ def main():
     with open(ANNO_FILE, "a") as anno_file:
         anno_file.write("name,type,start_x,start_y,end_x,end_y,available\n")
 
-        for _ in range(0, len(ANNO_IDS) - 1):
+        while video_idx < len(ANNO_IDS):
             print(f'##### start with video {video_id}')
 
             try:
