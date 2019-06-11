@@ -11,11 +11,23 @@ def main():
     arg = parser.parse_args()
 
     df = pd.read_csv(arg.csv)
-    df = df[df['available'] == 1]
     img_name_list = df.name.unique()
+    drop_video_name = None
 
-    print('push \'Enter\' to next, \'z\' to drop out, or \'q\' to exit! ')
-    for idx, img_name in enumerate(img_name_list):
+    print('push \'Enter\' to next, \'z\' to drop out, \'q\' to exit! \n'
+          '     \'x\' to drop all this video, \'<number>\' to jump index, \'p\' to previous image.')
+
+    idx = 0
+    while True:
+        img_name = img_name_list[idx]
+        available = list(df.loc[df.name == img_name, 'available'])[0]
+        if img_name[:11] == drop_video_name:
+            df.loc[df.name == img_name, 'available'] = 0
+            print(f'drop {img_name}')
+            idx += 1
+            continue
+        drop_video_name = None
+
         person_df = df.loc[(df.name == img_name) & (df['type'] == 1)]
         face_df = df[(df.name == img_name) & (df['type'] == 2)]
 
@@ -31,7 +43,7 @@ def main():
         cv2.imshow('frame', img)
         cv2.waitKey(1)
 
-        ans = input(f'{idx+1}/{len(img_name_list)}')
+        ans = input(f'{available}:({idx + 1} / {len(img_name_list)}) {img_name}:')
         if ans.lower() == 'q':
             is_save = input('save result? (y/n)')
             if is_save.lower() == 'n':
@@ -39,8 +51,26 @@ def main():
                 exit(0)
             print('Save.')
             save_result(df)
+        elif ans.lower() == 'p':
+            if idx == 0:
+                print('idx already zero')
+                continue
+            idx -= 1
+            continue
+        elif ans.isdigit() and 0 < int(ans) < len(img_name_list):
+            idx = int(ans) - 1
+            continue
+        elif ans.lower() == 'x':
+            drop_video_name = img_name[:11]
+            df.loc[df.name == img_name, 'available'] = 0
         elif ans.lower() == 'z':
             df.loc[df.name == img_name, 'available'] = 0
+        elif ans.lower() == 'a':
+            df.loc[df.name == img_name, 'available'] = 1
+
+        idx += 1
+        if idx == len(img_name_list):
+            break
 
     print('All Complete, Thanks a lot <3')
     save_result(df)
