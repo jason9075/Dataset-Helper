@@ -5,6 +5,7 @@ import pandas as pd
 parser = ArgumentParser()
 parser.add_argument("csv", help="csv file")
 parser.add_argument("--data-dir", default="images/", help="img folder")
+parser.add_argument("--output", default="filter.csv", help="img folder")
 
 
 def main():
@@ -14,8 +15,8 @@ def main():
     img_name_list = df.name.unique()
     drop_video_name = None
 
-    print('push \'Enter\' to next, \'z\' to drop out, \'q\' to exit! \n'
-          '     \'x\' to drop all this video, \'<number>\' to jump index, \'p\' to previous image.')
+    print('push \'Enter\' to next, \'a\' to keep it \'z\' to drop out, \'q\' to exit! \n'
+          '     \'x\' to drop all this video, \'<number>\' to jump index, \'p\' to jump previous.')
 
     idx = 0
     while True:
@@ -50,7 +51,7 @@ def main():
                 print('No save.')
                 exit(0)
             print('Save.')
-            save_result(df)
+            save_result(df, arg.output)
         elif ans.lower() == 'p':
             if idx == 0:
                 print('idx already zero')
@@ -73,11 +74,11 @@ def main():
             break
 
     print('All Complete, Thanks a lot <3')
-    save_result(df)
+    save_result(df, arg.output)
 
 
-def save_result(df):
-    df.to_csv('filter.csv', index=0)
+def save_result(df, name):
+    df.to_csv(name, index=0)
     exit(0)
 
 
