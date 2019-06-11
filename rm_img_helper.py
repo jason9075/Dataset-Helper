@@ -18,6 +18,10 @@ def main():
         print(f'rm: {arg.data_dir}{img_name}')
         os.remove(f'{arg.data_dir}{img_name}')
 
+    df = pd.read_csv(arg.csv)
+    df = df[df['available'] == 1]
+    df.to_csv(arg.csv, index=0)
+
 
 if __name__ == '__main__':
     main()
