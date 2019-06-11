@@ -16,7 +16,7 @@ from pytube.exceptions import LiveStreamError
 from detector import PersonLocationDetector, FaceLocationDetector
 
 SKIP_FRAME = 100
-START_ID = 'bsFAn8pNt38'
+START_ID = '8bl4O_hrAsg'
 ANNO_FILE = 'annotation.csv'
 MAX_VIDEO_LENGTH = 1800
 
@@ -59,14 +59,14 @@ def main():
             print(f'##### start with video {video_id}')
 
             try:
-                yt = YouTube(f'https://www.youtube.com/watch?v={video_id}')
+                yt = YouTube(f'https://youtu.be/{video_id}')
             except LiveStreamError:
                 print('Warning: is live stream.')
                 video_id = play_next_video(video_id)
                 continue
             except KeyError:
                 print('Warning: pytube bug....')
-                video_id = play_next_video(video_id)
+                print('hotfix: https://github.com/nficano/pytube/issues/398')
                 continue
             if video_id in video_id_set:
                 print('Warning: video duplicated.')
