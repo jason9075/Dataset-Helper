@@ -1,5 +1,7 @@
-import cv2
 from argparse import ArgumentParser
+
+import cv2
+import matplotlib.pyplot as plt
 import pandas as pd
 
 parser = ArgumentParser()
@@ -18,6 +20,7 @@ def main():
     print('push \'Enter\' to next, \'a\' to keep it \'z\' to drop out, \'q\' to exit! \n'
           '     \'x\' to drop all this video, \'<number>\' to jump index, \'p\' to jump previous.')
 
+    plt.ion()
     idx = 0
     while True:
         img_name = img_name_list[idx]
@@ -36,13 +39,14 @@ def main():
 
         for _, person in person_df.iterrows():
             cv2.rectangle(img, (person['start_x'], person['start_y']),
-                          (person['end_x'], person['end_y']), (0, 255, 0), 2)
+                          (person['end_x'], person['end_y']), (0, 255, 0), 4)
         for _, face in face_df.iterrows():
             cv2.rectangle(img, (face['start_x'], face['start_y']),
-                          (face['end_x'], face['end_y']), (255, 0, 0), 2)
+                          (face['end_x'], face['end_y']), (255, 0, 0), 4)
 
-        cv2.imshow('frame', img)
-        cv2.waitKey(1)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        plt.imshow(img)
+        plt.pause(0.01)
 
         ans = input(f'{available}:({idx + 1} / {len(img_name_list)}) {img_name}:')
         if ans.lower() == 'q':
@@ -58,8 +62,11 @@ def main():
                 continue
             idx -= 1
             continue
-        elif ans.isdigit() and 0 < int(ans) < len(img_name_list):
-            idx = int(ans) - 1
+        elif ans.isdigit():
+            if 0 < int(ans) <= len(img_name_list):
+                idx = int(ans) - 1
+            else:
+                print(f'idx is not between (1,{len(img_name_list)}')
             continue
         elif ans.lower() == 'x':
             drop_video_name = img_name[:11]
