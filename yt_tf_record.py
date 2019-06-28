@@ -89,7 +89,7 @@ def main():
     print(f'write to {output_path}.')
 
     img_name_list = df.name.unique()
-    print(f"{len(img_name_list)} of images and {df.count + 1} of obj have to record.")
+    print(f"{len(img_name_list)} of images and {len(df.index)} of obj have to record.")
     for img_name in img_name_list:
         obj_df = df.loc[(df.name == img_name)]
 
