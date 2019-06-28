@@ -20,7 +20,7 @@ parser.add_argument(
     "--label-map", default="label_map.pbtxt", help="Path to label map proto")
 
 
-def df_to_tf_example(img_name, img_size, encoded_image, person_df, face_df):
+def df_to_tf_example(img_name, img_size, encoded_image, obj_df):
     key = hashlib.sha256(encoded_image).hexdigest()
 
     height, width = img_size
@@ -32,20 +32,14 @@ def df_to_tf_example(img_name, img_size, encoded_image, person_df, face_df):
     classes = []
     classes_text = []
 
-    for _, person in person_df.iterrows():
-        start_x.append(float(person['start_x']) / width)
-        start_y.append(float(person['start_y']) / height)
-        end_x.append(float(person['end_x']) / width)
-        end_y.append(float(person['end_y']) / height)
-        classes_text.append('person'.encode('utf8'))
-        classes.append(1)
-    for _, face in face_df.iterrows():
-        start_x.append(float(face['start_x']) / width)
-        start_y.append(float(face['start_y']) / height)
-        end_x.append(float(face['end_x']) / width)
-        end_y.append(float(face['end_y']) / height)
-        classes_text.append('face'.encode('utf8'))
-        classes.append(1)
+    for _, obj in obj_df.iterrows():
+        start_x.append(float(obj['start_x']) / width)
+        start_y.append(float(obj['start_y']) / height)
+        end_x.append(float(obj['end_x']) / width)
+        end_y.append(float(obj['end_y']) / height)
+        label = 'person' if obj['type'] == 1 else 'face'
+        classes_text.append(label.encode('utf8'))
+        classes.append(int(obj['type']))
 
     example = tf.train.Example(features=tf.train.Features(feature={
         'image/height': int64_feature(height),
@@ -96,14 +90,13 @@ def main():
     img_name_list = df.name.unique()
     print(f"{len(img_name_list)} of images have to record.")
     for img_name in img_name_list:
-        person_df = df.loc[(df.name == img_name) & (df['type'] == 1)]
-        face_df = df[(df.name == img_name) & (df['type'] == 2)]
+        obj_df = df.loc[(df.name == img_name)]
 
         with tf.gfile.GFile(f'{args.data_dir}{img_name}', 'rb') as fid:
             encoded_image = fid.read()
         img = cv2.imread(f'{args.data_dir}{img_name}')
         size = img.shape[0:2]
-        tf_example = df_to_tf_example(img_name, size, encoded_image, person_df, face_df)
+        tf_example = df_to_tf_example(img_name, size, encoded_image, obj_df)
         writer.write(tf_example.SerializeToString())
 
     writer.close()
