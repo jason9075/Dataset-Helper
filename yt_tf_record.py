@@ -86,9 +86,10 @@ def main():
 
     output_path = os.path.join(args.output_path, f'{args.output_name}.tfrecord')
     writer = tf.python_io.TFRecordWriter(output_path)
+    print(f'write to {output_path}.')
 
     img_name_list = df.name.unique()
-    print(f"{len(img_name_list)} of images have to record.")
+    print(f"{len(img_name_list)} of images and {df.count + 1} of obj have to record.")
     for img_name in img_name_list:
         obj_df = df.loc[(df.name == img_name)]
 
