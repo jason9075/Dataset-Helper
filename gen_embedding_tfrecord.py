@@ -62,7 +62,7 @@ def main():
     np.random.shuffle(datas)
 
     #  write records  #
-    output_path = os.path.join(args.output_path, f'train_{cat_index - 1}.tfrecord')
+    output_path = os.path.join(args.output_path, f'train_{cat_index}.tfrecord')
     writer = tf.python_io.TFRecordWriter(output_path)
     for i, data in enumerate(datas):
         img = cv2.imread(data.path)
