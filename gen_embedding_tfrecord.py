@@ -62,7 +62,7 @@ def main():
     np.random.shuffle(datas)
 
     #  write records  #
-    output_path = os.path.join(args.output_path, 'train.tfrecord')
+    output_path = os.path.join(args.output_path, f'train_{cat_index - 1}.tfrecord')
     writer = tf.python_io.TFRecordWriter(output_path)
     for i, data in enumerate(datas):
         img = cv2.imread(data.path)
@@ -75,7 +75,7 @@ def main():
             KEY_TEXT: tf.train.Feature(bytes_list=tf.train.BytesList(value=[text])),
         }))
         writer.write(example.SerializeToString())  # Serialize To String
-        if (i + 1) % 1000 == 0:
+        if i != 0 and i % 1000 == 0:
             print('%d num of images processed.' % i)
     print(f'total {len(datas)} images process complete.')
     writer.close()
