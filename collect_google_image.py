@@ -1,5 +1,6 @@
-from icrawler.builtin import GoogleImageCrawler
+import os
 
+from icrawler.builtin import GoogleImageCrawler
 
 
 def main():
@@ -9,11 +10,13 @@ def main():
     name_list = [x.strip() for x in content]
 
     for name in name_list:
-        google_crawler = GoogleImageCrawler(storage={'root_dir': f'images/search/{name}'})
+        output_path = f'images/search/{name}'
+        if os.path.isdir(output_path):
+            print(f'{name} exist.')
+            continue
+        google_crawler = GoogleImageCrawler(storage={'root_dir': output_path})
         google_crawler.crawl(keyword=name, max_num=100)
         print(f'{name} complete.')
-
-
 
 
 if __name__ == '__main__':
