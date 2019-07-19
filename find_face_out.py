@@ -28,6 +28,8 @@ def main():
             img_name = img_path.split('/')[-1]
 
             image = cv2.imread(img_path)
+            if image.shape[0] == 0 or image.shape[1] == 0 or image.shape[2] != 3:  # jpg have issue
+                continue
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
             h, w = image.shape[:-1]
