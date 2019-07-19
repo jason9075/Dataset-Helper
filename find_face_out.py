@@ -28,7 +28,7 @@ def main():
             img_name = img_path.split('/')[-1]
 
             image = cv2.imread(img_path)
-            if image.shape[0] == 0 or image.shape[1] == 0 or image.shape[2] != 3:  # jpg have issue
+            if image is None or image.shape[2] != 3:  # jpg have issue
                 continue
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -45,6 +45,8 @@ def main():
                     min(h, end_y + MARGIN_BOTTOM))
                 face_image = image[start_y:end_y, start_x:end_x, :]
                 cv2.imwrite(f'{OUT_PATH}/{star_name}/{img_name[:-4]}_{i}.jpg', face_image)
+
+            print(f'{star_name} finish.')
             del image
 
         cnt += 1
