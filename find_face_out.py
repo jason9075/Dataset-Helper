@@ -46,7 +46,6 @@ def main():
                 face_image = image[start_y:end_y, start_x:end_x, :]
                 cv2.imwrite(f'{OUT_PATH}/{star_name}/{img_name[:-4]}_{i}.jpg', face_image)
 
-            print(f'{star_name} finish.')
             del image
 
         cnt += 1
