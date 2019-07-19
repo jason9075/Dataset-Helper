@@ -10,6 +10,7 @@ def main():
     name_list = [x.strip() for x in content]
 
     for name in name_list:
+        print(f'############### finding {name}')
         output_path = f'images/search/{name}'
         if os.path.isdir(output_path):
             print(f'{name} exist.')
