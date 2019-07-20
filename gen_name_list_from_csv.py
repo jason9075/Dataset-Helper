@@ -1,5 +1,7 @@
-FILE_NAME = 'Sheet2.csv'
+import os
 
+FILE_NAME = 'Sheet2.csv'
+OUTPUT_NAME = 'name_list'
 
 def main():
     with open(FILE_NAME) as f:
@@ -15,7 +17,10 @@ def main():
         name_set.update(names_of_line)
     name_set = sorted(name_set)
 
-    with open('name_list', 'a') as f:
+    if os.path.exists(OUTPUT_NAME):
+        os.remove(OUTPUT_NAME)
+
+    with open(OUTPUT_NAME, 'a') as f:
         for name in name_set:
             f.write('{}\n'.format(name))
 
