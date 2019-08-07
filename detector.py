@@ -91,3 +91,9 @@ class SsdFaceLocationDetector:
             face_location_list.append((startX, startY, endX, endY))
 
         return face_location_list
+
+
+class FaceVectorEncoder():
+    def predict(self, face_img):
+        h, w, _ = face_img.shape
+        return face_recognition.face_encodings(face_img, [(0, w, h, 0)])[0]
