@@ -12,6 +12,7 @@ FPS = 10
 FRAME_SIZE = (1280, 720)
 RECORD_DURATION = 5 * 60  # sec
 WAITING_DURATION = 30 * 60  # sec
+SHOW_UI = False
 
 
 def time_to_recording(start):
@@ -47,10 +48,10 @@ def main():
 
         if ret:
             out.write(frame)
-
-            cv2.imshow('frame', frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            if SHOW_UI:
+                cv2.imshow('frame', frame)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
         else:
             break
 
