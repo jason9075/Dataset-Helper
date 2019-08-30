@@ -134,5 +134,9 @@ images/*
 output_path/*
 !output_path/.keep
 
+video/*
+!video/.keep
+
+
 annotation.csv
 filter.csv
