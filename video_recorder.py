@@ -20,6 +20,8 @@ def time_to_recording(start):
 
 def main():
     cap = cv2.VideoCapture(DEVICE)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_SIZE[0])
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_SIZE[1])
 
     out = cv2.VideoWriter(f'video/{datetime.now().strftime("%Y_%m_%d_%H_%M_%S")}.avi', FOURCC, FPS, FRAME_SIZE)
     recording_status = True
