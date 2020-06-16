@@ -9,6 +9,7 @@ import numpy as np
 KEY_IMAGE = 'image_raw'
 KEY_LABEL = 'label'
 KEY_TEXT = 'text'
+IMAGE_SIZE = (224, 224)
 
 
 class Data:
@@ -67,6 +68,7 @@ def main():
     for i, data in enumerate(datas):
         img = cv2.imread(data.path)
         img = cv2.imencode('.jpg', img)[1].tostring()
+        img = cv2.resize(img, IMAGE_SIZE)
         label = data.idx
         text = data.text.encode('utf8')
         example = tf.train.Example(features=tf.train.Features(feature={

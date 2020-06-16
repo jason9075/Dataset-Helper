@@ -6,10 +6,10 @@ from cv_core.detector.face_inference import FaceLocationDetector
 
 PATH = './images/search/'
 OUT_PATH = './images/search_face/'
-MARGIN_TOP = 100
-MARGIN_LEFT = 100
-MARGIN_RIGHT = 100
-MARGIN_BOTTOM = 100
+MARGIN_TOP = 80
+MARGIN_LEFT = 80
+MARGIN_RIGHT = 80
+MARGIN_BOTTOM = 80
 
 
 def main():

@@ -1,5 +1,5 @@
 # pip install -U bs4
-# pip install pytube
+# pip install pytube==9.5.0
 
 import glob
 import os

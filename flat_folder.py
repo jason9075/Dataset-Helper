@@ -7,7 +7,7 @@ OUTPUT = 'output/'
 
 
 def main():
-    files = glob.glob('images/*')
+    files = glob.glob('/mnt/asia_sr_face/*')
     for file in files:
         images = glob.glob(os.path.join(file, '*.jpg'))
         for image in images:
